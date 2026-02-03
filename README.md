@@ -9,3 +9,6 @@ I am a beginner programmer and so this might take a while.
 |Feature|Implemented|
 |---|---|
 |Openwake word for the wake word engine|❌|
+|Fully local STT and TTS|❌|
+|Optional OpenAI STT API key support and elevenlabs TTS|❌
+|
