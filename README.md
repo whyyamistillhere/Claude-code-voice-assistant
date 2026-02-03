@@ -12,4 +12,4 @@ I am a beginner programmer and so this might take a while.
 |Fully local STT and TTS using the wyoming protocol(if you want to run the STT and TTS on a diffrent server)|❌|
 |Optional OpenAI STT API key support and elevenlabs TTS|❌
 |Yaml config file|❌|
-
+|claude code for the AI agent|❌|
