@@ -7,4 +7,3 @@ wake_word_models: ["Sudo.onnx", "Suto.onnx"]
 whisper_model: "turbo"
 Input&output_device: 6
 
-# wake_word_models: ["Sudo.onnx", "Suto.onnx"]
