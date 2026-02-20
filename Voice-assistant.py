@@ -7,14 +7,13 @@ import os
 import openwakeword
 from openwakeword.model import Model
 import yaml
-from wyoming.tts import Synthesize
-from wyoming.audio import AudioChunk
-from wyoming.audio import AudioChunk, AudioStop
+#from wyoming.tts import Synthesize
+#from wyoming.audio import AudioChunk
+#from wyoming.audio import AudioChunk, AudioStop
 import asyncio
 import sounddevice as sd
 import numpy as np
-from scipy import signal
-from scipy.io.wavfile import write
+
 
 print("📃 packages imported 📃")
 
