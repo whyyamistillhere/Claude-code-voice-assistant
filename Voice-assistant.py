@@ -42,21 +42,15 @@ print("📃 Open wake word models loaded 📃")
 
 # getting the models prediction from the microphone audio and say detected if it is detected
 print("📃 Recording and predicting 📃")
-while True:
-    audio_data = sd.RawInputStream(
-        samplerate=samplerate,
-        device=device,
-        channels=1,
-        dtype="int16")
-#    
-#    audio_data = sd.rec(
-#    samplerate=samplerate,
-#    channels=channels,
-#    dtype="int16",
-#    device=device,
-#    frames=1280
-#    )
-#    sd.wait()
+while True:   
+    audio_data = sd.rec(
+    samplerate=samplerate,
+    channels=channels,
+    dtype="int16",
+    device=device,
+    frames=1280
+    )
+    sd.wait()
 
 ##    audio_array = np.frombuffer(audio_data, dtype=np.int16)
     prediction = oww_model.predict(audio_data) # Model predicitng the wake word
