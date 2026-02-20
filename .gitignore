@@ -1,0 +1,10 @@
+file.wav
+output.wav
+test.wav
+Printerist-code/
+.vscode/
+.claude/
+*.tflite
+*.onnx
+Temp.md
+
