@@ -15,5 +15,6 @@ I am a beginner programmer and so this might take a while.
 |Claude code for the AI agent|❌|
 
 # Packages
-
- - ```pip install sounddevice```
+```
+ - pip install sounddevice
+```
