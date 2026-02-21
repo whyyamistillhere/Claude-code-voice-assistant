@@ -8,8 +8,8 @@ I am a beginner programmer and so this might take a while.
 # Features
 |Feature|Implemented|
 |---|---|
-|Openwake word for the wake word engine|❌|
+|Yaml config file|✅|
+|Openwake word for the wake word engine|✅|
 |Fully local STT and TTS using the wyoming protocol(if you want to run the STT and TTS on a diffrent server)|❌|
 |Optional OpenAI STT API key support and elevenlabs TTS|❌
-|Yaml config file|✅|
 |Claude code for the AI agent|❌|
