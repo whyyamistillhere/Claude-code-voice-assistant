@@ -16,5 +16,5 @@ I am a beginner programmer and so this might take a while.
 
 # Packages
 ```
- - pip install sounddevice
+pip install openwakeword pyyaml sounddevice numpy
 ```
