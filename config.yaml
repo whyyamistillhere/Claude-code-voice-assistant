@@ -1,9 +1,10 @@
-wake_word_confidence: 0.75
+wake_word_confidence: 0
 eleven_labs_API_key: 
 openai_API_key: 
 piper_TTS_IP: "192.168.1.185"
 whisper_STT_IP: "192.168.1.185"
 wake_word_models: ["Sudo.onnx", "Suto.onnx"]
 whisper_model: "turbo"
-Input&output_device: 6
-
+Input_device: 6
+Output_device: 6
+notification_sound: "default.wav"
