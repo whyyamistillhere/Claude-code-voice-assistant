@@ -7,3 +7,4 @@ Printerist-code/
 *.tflite
 *.onnx
 Temp.md
+test.py
