@@ -14,6 +14,9 @@ import asyncio
 import sounddevice as sd
 import numpy as np
 import scipy.io.wavfile as wav
+import webrtcvad
+import time
+
 print("📃 packages imported 📃")
 
 # opening the config.yaml file for defining some config
@@ -29,14 +32,23 @@ wyoming_TTS_IP = config['piper_TTS_IP']
 input_device = config['Input_device']
 output_device = config['Output_device']
 notification_sound = config['notification_sound']
+silence_time = config['silence_time']
 
-# Loading the Openwake word models
-print("📃 Loading up the Openwake word models 📃")
+# Loading the Openwake word models and webrtcvad
+print("📃 Loading up the Openwake word models and webrtcvad 📃")
 oww_model = Model(wake_word_models)
-print("📃 Open wake word models loaded 📃")
+vad = webrtcvad.Vad(3)
+print("📃 Open wake word models loaded and webrtcvad 📃")
+
+print("📃 Everything loaded, starting in 3 seconds")
+time.sleep(3)
 
 # getting the models prediction from the microphone audio and say detected if it is detected
 print("📃 Recording and predicting 📃")
+
+# this little block is calculating how many 30 millisconds chunks are in the silence_time string. Then it rounds them up, becasue python might not like it.
+silence_chunks = silence_time / 0.030
+rounded_silence_chunks = round(silence_chunks)
 
 with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="int16",) as stream:  # This line here opens up the microphone 
     while True:
@@ -50,7 +62,25 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
                 print("📃 wake word detected and playing notification sound 📃")
 
                 # playing the notification sound
+                print("📃 Playing notification sound 📃")
                 samplerate_noti, noti_data = wav.read(notification_sound) # Reading the .wav file
                 
+                # Playing the audio to the speakers
                 sd.play(noti_data, samplerate_noti, device=output_device)
                 sd.wait()
+
+                print("📃 Listening the command and then processing it with STT 📃")
+
+
+                # Converting the audio data from an numpy array to bytes for webrtcvad
+                silence_counter = 0
+                while silence_counter < 100:
+                    
+                    # Converting the audio data from an numpy array to bytes for webrtcvad
+                    whisper_audio_data, whisper_overflowed = stream.read(frames=1280)
+                    webrtcvad_audio_data = whisper_audio_data.tobytes()
+
+                    if vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is True:
+                        silence_counter =+ 1
+                
+                print("3 Seconds of silence")
