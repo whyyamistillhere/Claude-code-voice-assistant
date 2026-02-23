@@ -74,7 +74,7 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
 
                 # Converting the audio data from an numpy array to bytes for webrtcvad
                 silence_counter = 0
-                while silence_counter < 100:
+                while silence_counter < rounded_silence_chunks:
                     
                     # Converting the audio data from an numpy array to bytes for webrtcvad
                     whisper_audio_data, whisper_overflowed = stream.read(frames=1280)
