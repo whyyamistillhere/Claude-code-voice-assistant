@@ -80,7 +80,10 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
                     whisper_audio_data, whisper_overflowed = stream.read(frames=1280)
                     webrtcvad_audio_data = whisper_audio_data.tobytes()
 
-                    if vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is True:
+                    if vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is False:
                         silence_counter =+ 1
+                    
+                    elif vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is True:
+                        silence_counter = 0
                 
                 print("3 Seconds of silence")
