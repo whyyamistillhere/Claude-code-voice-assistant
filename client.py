@@ -4,18 +4,14 @@ print("📃 Starting up 📃")
 
 print("📃 Importing packages 📃")
 import os
-import openwakeword
 from openwakeword.model import Model
 import yaml
-from wyoming.tts import Synthesize
-from wyoming.audio import AudioChunk
-from wyoming.audio import AudioChunk, AudioStop
-import asyncio
 import sounddevice as sd
-import numpy as np
 import scipy.io.wavfile as wav
 import webrtcvad
 import time
+import requests
+import numpy as np
 
 print("📃 packages imported 📃")
 
@@ -50,7 +46,7 @@ print("📃 Recording and predicting 📃")
 silence_chunks = silence_time / 0.030
 rounded_silence_chunks = round(silence_chunks)
 
-with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="int16",) as stream:  # This line here opens up the microphone 
+with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="int16",) as stream:  # This line here opens up the microphone and then closes it when it doesn't need it anymore
     while True:
         prediction_audio_data, overflowed = stream.read(frames=1280)
         prediction = oww_model.predict(prediction_audio_data.squeeze()) # Model predicitng the wake word
@@ -70,20 +66,23 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
                 sd.wait()
 
                 print("📃 Listening the command and then processing it with STT 📃")
-
-
-                # Converting the audio data from an numpy array to bytes for webrtcvad
                 silence_counter = 0
+                whisper_audio_chunks = []
+
                 while silence_counter < rounded_silence_chunks:
                     
                     # Converting the audio data from an numpy array to bytes for webrtcvad
-                    whisper_audio_data, whisper_overflowed = stream.read(frames=1280)
+                    whisper_audio_data, whisper_overflowed = stream.read(frames=480)
                     webrtcvad_audio_data = whisper_audio_data.tobytes()
 
+                    whisper_audio_chunks.append(whisper_audio_data)
+
+                    # This is detecting the 3 seconds of silence, how it works is simple, if it detetcs silence it adds +1 to the silence counter and if it doesnt, then it resets back to 0
                     if vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is False:
                         silence_counter =+ 1
                     
                     elif vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is True:
                         silence_counter = 0
                 
+                full_whisper_audio_chunks = np.concatenate(whisper_audio_chunks)
                 print("3 Seconds of silence")
