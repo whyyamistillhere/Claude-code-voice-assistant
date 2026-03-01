@@ -2,6 +2,13 @@ print("📃 starting up 📃")
 print("📃 Importing packages")
 from flask import Flask, request, send_file
 import whisper
+import yaml
+
+# opening the config.yaml file for defining some config
+with open('server-config.yaml', 'r') as file:
+    config = yaml.safe_load(file)
+
+
 
 app = Flask(__name__)
 

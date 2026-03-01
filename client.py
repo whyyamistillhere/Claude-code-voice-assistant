@@ -23,8 +23,8 @@ with open('config.yaml', 'r') as file:
 whisper_model_py = config['whisper_model']
 wake_word_confidence = config['wake_word_confidence']
 wake_word_models = config['wake_word_models']
-wyoming_STT_IP = config['whisper_STT_IP']
-wyoming_TTS_IP = config['piper_TTS_IP']
+STT_server_IP = config['STT_server_IP']
+TTS_server_IP = config['TTS_server_IP']
 input_device = config['Input_device']
 output_device = config['Output_device']
 notification_sound = config['notification_sound']
@@ -85,4 +85,6 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
                         silence_counter = 0
                 
                 full_whisper_audio_chunks = np.concatenate(whisper_audio_chunks)
-                print("3 Seconds of silence")
+                full_whisper_audio_chunks = full_whisper_audio_chunks.tobytes()
+                
+                print("3 Seconds of silence has been detected")

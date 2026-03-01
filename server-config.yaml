@@ -1,0 +1,4 @@
+whisper_model: "turbo"
+piper_model_path: 
+eleven_labs_API_key: 
+openai_API_key: 
