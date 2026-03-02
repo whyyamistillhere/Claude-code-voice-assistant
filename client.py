@@ -3,7 +3,6 @@
 print("📃 Starting up 📃")
 
 print("📃 Importing packages 📃")
-import os
 from openwakeword.model import Model
 import yaml
 import sounddevice as sd
