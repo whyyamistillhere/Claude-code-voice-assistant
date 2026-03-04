@@ -1,4 +1,4 @@
-whisper_model: "turbo"
-piper_model_path: 
+whisper_model: "turbo" # Put the model name inside the double quotes, the avalaible models: turbo, tiny, base, medium, large
+piper_model_path: "/home/erik/Documents/Claude-code-voice-assistant/en_GB-alan-medium.onnx"
 eleven_labs_API_key: 
 openai_API_key: 
