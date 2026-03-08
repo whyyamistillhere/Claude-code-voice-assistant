@@ -78,7 +78,7 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
 
                     # This is detecting the 3 seconds of silence, how it works is simple, if it detetcs silence it adds +1 to the silence counter and if it doesnt, then it resets back to 0
                     if vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is False:
-                        silence_counter =+ 1
+                        silence_counter += 1
                     
                     elif vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is True:
                         silence_counter = 0
