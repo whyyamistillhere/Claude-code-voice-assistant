@@ -15,11 +15,10 @@ import numpy as np
 print("📃 packages imported 📃")
 
 # opening the config.yaml file for defining some config
-with open('config.yaml', 'r') as file:
+with open('client-config.yaml', 'r') as file:
     config = yaml.safe_load(file)
 
 # defining the variables from yaml file. The yaml file is config.yaml
-whisper_model_py = config['whisper_model']
 wake_word_confidence = config['wake_word_confidence']
 wake_word_models = config['wake_word_models']
 server_IP = config['server_IP']
