@@ -47,7 +47,7 @@ def process():
     with io.BytesIO.write("voice.wav", "wb") as voice_file:
         PiperVoice.synthesize_wav(claudes_response, voice_file)
 
-    return send_file(io.BytesIO.seek)
+    return send_file(io.BytesIO.seek, mimetype="audio/wav")
 
 
 app.run(host="0.0.0.0", port=5000)
