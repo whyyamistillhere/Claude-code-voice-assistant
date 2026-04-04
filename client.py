@@ -11,6 +11,8 @@ import webrtcvad
 import time
 import requests
 import numpy as np
+import io
+import wave
 
 print("📃 packages imported 📃")
 
@@ -91,7 +93,10 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
                 response = requests.post(f"http://{server_IP}:{server_port}/process", data=full_whisper_audio_chunks)
 
                 response_back = response.content
-                print("Got the processed data")
-                audio_back = np.frombuffer(response_back, dtype="int16")
+                response_back_mem = io.BytesIO(response_back)
 
-                sd.play(audio_back, samplerate=16000, device=output_device)
+                print("Got the processed data")
+                audio_back_sample, audio_back_data = wav.read(response_back_mem)
+
+                sd.play(audio_back_data, samplerate=audio_back_sample, device=output_device)
+                sd.wait()
