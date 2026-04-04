@@ -39,14 +39,9 @@ def process():
     capture_output=True,
     text=True,
     )
-    print("Here's claude's response", response)
+    print("Here's claude's response:", response) # The output from this command also contains some other info, not just the claude's response
 
-    claudes_response = response.stdout.strip()
-
-    if response.returncode != 0:
-        error = result.stderr.strip()
-        print(f"❌ Error: {error}")
-        f"encountered an error: {error}"
+    claudes_response = response.stdout.strip() # This cleans up the response from the subprocess command, becuase it also gives some uneeded data
     
     # This code block will make the text to speech
     with io.BytesIO.write("voice.wav", "wb") as voice_file:
