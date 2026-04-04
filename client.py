@@ -90,9 +90,8 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
                 print("sending the audio data to the server")
                 response = requests.post(f"http://{server_IP}:{server_port}/process", data=full_whisper_audio_chunks)
 
-                response_back = response.content()
+                response_back = response.content
                 print("Got the processed data")
                 audio_back = np.frombuffer(response_back, dtype="int16")
 
                 sd.play(audio_back, samplerate=16000, device=output_device)
-                sd.wait

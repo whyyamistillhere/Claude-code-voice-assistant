@@ -7,6 +7,8 @@ from piper import PiperVoice
 from time import sleep
 import subprocess
 import io
+import numpy as np
+import wave
 
 # opening the config.yaml file for defining some config
 with open('server-config.yaml', 'r') as file:
@@ -31,7 +33,7 @@ def process():
     audio_bytes = request.data   # the audio arrives here
         
     # making audio to text
-    result = whisper.transcribe(audio_bytes)
+    result = stt_model.transcribe(audio_bytes)
     print("Audio arrived and it has been processed, now going to claude")
 
     # this code block run's the "claude -p (prompt)" command
@@ -44,12 +46,12 @@ def process():
     claudes_response = response.stdout.strip() # This cleans up the response from the subprocess command, becuase it also gives some uneeded data
     
     # This code block will make the text to speech
-    with io.BytesIO.write("voice.wav", "wb") as voice_file:
-        PiperVoice.synthesize_wav(claudes_response, voice_file)
+    voice_file = io.BytesIO()
+    with wave.open(voice_file, "wb") as wav_writer:
+        tts_voice.synthesize_wav(claudes_response, wav_writer)
 
-    return send_file(io.BytesIO.seek, mimetype="audio/wav")
+    voice_file.seek(0)
+    return send_file(voice_file, mimetype="audio/wav") # Send's the audio data
 
 
 app.run(host="0.0.0.0", port=5000)
-
-process()
