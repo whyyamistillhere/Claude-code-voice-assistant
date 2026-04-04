@@ -5,6 +5,8 @@ import whisper
 import yaml
 from piper import PiperVoice
 from time import sleep
+import subprocess
+import io
 
 # opening the config.yaml file for defining some config
 with open('server-config.yaml', 'r') as file:
@@ -30,9 +32,27 @@ def process():
         
     # making audio to text
     result = whisper.transcribe(audio_bytes)
-    
+    print("Audio arrived and it has been processed, now going to claude")
 
-    return send_file("response.wav")
+    # this code block run's the "claude -p (prompt)" command
+    response = subprocess.run(['claude', '-p', result],
+    capture_output=True,
+    text=True,
+    )
+    print("Here's claude's response", response)
+
+    claudes_response = response.stdout.strip()
+
+    if response.returncode != 0:
+        error = result.stderr.strip()
+        print(f"❌ Error: {error}")
+        f"encountered an error: {error}"
+    
+    # This code block will make the text to speech
+    with io.BytesIO.write("voice.wav", "wb") as voice_file:
+        PiperVoice.synthesize_wav(claudes_response, voice_file)
+
+    return send_file(io.BytesIO.seek)
 
 
 app.run(host="0.0.0.0", port=5000)
