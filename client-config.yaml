@@ -5,4 +5,4 @@ wake_word_models: ["Sudo.onnx", "Suto.onnx"]
 Input_device: 6
 Output_device: 6
 notification_sound: "default.wav"
-silence_time: 1 # this is in seconds
+silence_time: 3 # this is in seconds

@@ -100,3 +100,4 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
 
                 sd.play(audio_back_data, samplerate=audio_back_sample, device=output_device)
                 sd.wait()
+                oww_model.reset() # The open wake word model has a audio buffer and once it has run then it is holding on to the old audio, which then falsesly activates the wake word. So we need to reset the model
