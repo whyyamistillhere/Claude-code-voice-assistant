@@ -84,18 +84,18 @@ with sd.InputStream(samplerate=16000, device=input_device, channels=1, dtype="in
                     elif vad.is_speech(webrtcvad_audio_data, sample_rate=16000) is True:
                         silence_counter = 0
                 
-                print("3 Seconds of silence has been detected")
+                print("📃", silence_time, "Seconds of silence has been detected 📃")
                 full_whisper_audio_chunks = np.concatenate(whisper_audio_chunks)
                 full_whisper_audio_chunks = full_whisper_audio_chunks.tobytes()
                 
                 # sending the audio to the server
-                print("sending the audio data to the server")
+                print("📃 sending the audio data to the server 📃")
                 response = requests.post(f"http://{server_IP}:{server_port}/process", data=full_whisper_audio_chunks)
 
                 response_back = response.content
                 response_back_mem = io.BytesIO(response_back)
 
-                print("Got the processed data")
+                print("📃 Got the processed data 📃")
                 audio_back_sample, audio_back_data = wav.read(response_back_mem)
 
                 sd.play(audio_back_data, samplerate=audio_back_sample, device=output_device)

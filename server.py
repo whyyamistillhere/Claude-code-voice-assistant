@@ -30,14 +30,20 @@ app = Flask(__name__)
 
 @app.route('/process', methods=['POST'])
 def process():
+
+    
+    # This code block recieves the audio and converts the int16 to float32 for whisper
     audio_bytes = request.data   # the audio arrives here
-        
+    print("📃 Audio has arrived and is now being processed 📃")
+    audio_array = np.frombuffer(audio_bytes, dtype=np.int16)
+    whisper_audio = audio_array.astype(np.float32) / 32768.0
+
     # making audio to text
-    result = stt_model.transcribe(audio_bytes)
-    print("Audio arrived and it has been processed, now going to claude")
+    result = stt_model.transcribe(whisper_audio)
+    print("📃 Audio arrived and it has been processed, now going to claude 📃")
 
     # this code block run's the "claude -p (prompt)" command
-    response = subprocess.run(['claude', '-p', result],
+    response = subprocess.run(['claude', '-p', result["text"]],
     capture_output=True,
     text=True,
     )
@@ -45,10 +51,12 @@ def process():
 
     claudes_response = response.stdout.strip() # This cleans up the response from the subprocess command, becuase it also gives some uneeded data
     
+    print("📃 Converting the text to voice 📃")
     # This code block will make the text to speech
     voice_file = io.BytesIO()
     with wave.open(voice_file, "wb") as wav_writer:
         tts_voice.synthesize_wav(claudes_response, wav_writer)
+    print("📃 Voice has been converted and now it is being send back to the server")
 
     voice_file.seek(0)
     return send_file(voice_file, mimetype="audio/wav") # Send's the audio data
