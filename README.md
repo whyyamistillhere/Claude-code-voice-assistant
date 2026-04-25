@@ -24,13 +24,13 @@ Server is listening for the audio data --> when it arrives, it then starts conve
 
 # Installation
 
-### Step 1 Clone the repo
+## Step 1 Clone the repo
 
 ```
 git clone https://github.com/whyyamistillhere/Claude-code-voice-assistant.git && cd Claude-code-voice-assistant
 ```
 
-### Step 2 creating the python enviorment and installing packages
+## Step 2 creating the python enviorment and installing packages
 
 Install python venv
 ```
@@ -47,7 +47,7 @@ source vvv/bin/activate
 ```
 If you see (vvv) next to your user name, that means you done it right.
 
-## Now run one of these commands to install all of the packages
+### Now run one of these commands to install all of the packages
 
 ### Client packages
 ```
@@ -58,5 +58,44 @@ pip install openwakeword pyyaml sounddevice numpy flask
 pip install openai-whisper piper-tts flask pyyaml
 ```
 
-### Step 3 running up the server.py and client.py
+## Step 3 running up the server.py and client.py
 
+### Client commands
+
+```
+sudo cp voice-assistant-client.service /etc/systemd/system/
+```
+(Copying the .service file to the systemd folder)
+
+```
+sudo systemctl daemon-reload
+```
+(Reloading the daemon)
+```
+sudo systemctl enable voice-assistant-client
+```
+(Making it so that it will automatically start when booting up)
+```
+sudo systemctl start voice-assistant-client
+```
+(Starting the program)
+
+### Server commands
+
+```
+sudo cp voice-assistant-server.service /etc/systemd/system/
+```
+(Copying the .service file to the systemd folder)
+
+```
+sudo systemctl daemon-reload
+```
+(Reloading the daemon)
+```
+sudo systemctl enable voice-assistant-server
+```
+(Making it so that it will automatically start when booting up)
+```
+sudo systemctl start voice-assistant-server
+```
+(Starting the program)
