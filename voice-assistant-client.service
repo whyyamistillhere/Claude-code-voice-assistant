@@ -1,0 +1,20 @@
+[Unit]
+Description=Voice Assistant Client (Wake Word + Audio I/O)
+After=network.target sound.target
+
+[Service]
+Type=simple
+User=USER_PLACEHOLDER
+WorkingDirectory=INSTALL_DIR_PLACEHOLDER
+ExecStart=INSTALL_DIR_PLACEHOLDER/vvv/bin/python3 INSTALL_DIR_PLACEHOLDER/client.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+Environment="PATH=INSTALL_DIR_PLACEHOLDER/vvv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="HOME=HOME_PLACEHOLDER"
+Environment="VIRTUAL_ENV=INSTALL_DIR_PLACEHOLDER/vvv"
+
+[Install]
+WantedBy=multi-user.target
