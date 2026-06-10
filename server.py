@@ -40,7 +40,7 @@ def process():
 
     # making audio to text
     result = stt_model.transcribe(whisper_audio)
-    print("📃 Audio arrived and it has been processed, now going to claude 📃")
+    print("📃 Audio now going to the AI agent 📃")
 
     # this code block run's the AI coding tool command
     response = subprocess.run(['codex', 'exec', result["text"]],
@@ -49,7 +49,7 @@ def process():
     )
     AI_response = response.stdout.strip() # This cleans up the response from the subprocess command, becuase it also gives some uneeded data
 
-    print("Here's claude's response:", AI_response) # The output from this command also contains some other info, not just the claude's response
+    print("Here's the AI agents response:", AI_response) # The output from this command also contains some other info, not just the claude's response
 
     
     print("📃 Converting the text to voice 📃")

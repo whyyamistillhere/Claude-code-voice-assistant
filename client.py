@@ -1,5 +1,4 @@
 # oww is open wake word
-
 print("📃 Starting up 📃")
 
 print("📃 Importing packages 📃")
@@ -13,8 +12,16 @@ import requests
 import numpy as np
 import io
 import wave
+device = sd.query_devices()
+print(device)
 
 print("📃 packages imported 📃")
+
+print("📃 Reading the microphones and speakers capabilities and searching for the default deivce unless already given")
+# Reading the microphone and speakers capabilites
+default_input = sd.default.device[0]
+default_output = sd.default.device[1]
+print(sd.query_devices(default_input))
 
 # opening the config.yaml file for defining some config
 with open('client-config.yaml', 'r') as file:
@@ -25,8 +32,8 @@ wake_word_confidence = config['wake_word_confidence']
 wake_word_models = config['wake_word_models']
 server_IP = config['server_IP']
 server_port = config['server_port']
-input_device = config['Input_device']
-output_device = config['Output_device']
+default_input = config['Input_device']
+default_output = config['Output_device']
 notification_sound = config['notification_sound']
 silence_time = config['silence_time']
 
@@ -37,7 +44,7 @@ vad = webrtcvad.Vad(3)
 print("📃 Open wake word models loaded and webrtcvad 📃")
 
 print("📃 Everything loaded, starting in 3 seconds")
-time.sleep(3)
+time.sleep(1)
 
 # getting the models prediction from the microphone audio and say detected if it is detected
 print("📃 Recording and predicting 📃")
