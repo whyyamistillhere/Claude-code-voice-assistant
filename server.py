@@ -57,7 +57,7 @@ def process():
     voice_file = io.BytesIO()
     with wave.open(voice_file, "wb") as wav_writer:
         tts_voice.synthesize_wav(AI_response, wav_writer)
-    print("📃 Voice has been converted and now it is being send back to the server")
+    print("📃 Voice has been converted to voice and now it is being send back to the client")
 
     voice_file.seek(0)
     return send_file(voice_file, mimetype="audio/wav") # Send's the audio data
