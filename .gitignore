@@ -11,4 +11,4 @@ test.py
 en_GB-alan-medium.onnx.json
 Printer-code.py
 AGENTS.md
-_pycache_
+__pycache__
