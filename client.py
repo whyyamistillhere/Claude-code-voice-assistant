@@ -87,18 +87,24 @@ def play_notification_sound(notification_sound, default_speaker):
     # Playing the audio to the speakers
     sd.play(noti_data, samplerate_noti, device=default_speaker)
 
+# what: it is recording the command until some amount of time has passed using webrtcvad
 def webrtcvad_and_command_recording(stream, vad, mic_samplerate, silence_time):
-    silence_counter = 0
-    audio_chunks = []
-    silence_chunks = silence_time / 0.030
-    frames = int(mic_samplerate * 0.03)
+    # Definening a counter and audio chunks for while loop
+    silence_counter = 0 # just a variable
+    audio_chunks = [] # holds the actual audio
+    silence_chunks = silence_time / 0.030 # why: since the vad reads 30 millisecond chunks at a time
+    frames = int(mic_samplerate * 0.03) # why: every microphone has diffrent samplerate and you need to calculate for each one the exact amount of frames
     
     print("📃 recording the command 📃")
     while silence_counter < silence_chunks:
+        # Converting the samplerate and channels to the prober ones, aka 16 kHz samplerate and mono audio
         audio_data, overflowed = stream.read(frames=frames)
         vad_audio = samplerate_and_channel_conversion(audio_data=audio_data, mic_input_samplerate=mic_samplerate)
         vad_bytes = vad_audio.tobytes()
 
+        # what this does is that it checks a audio chunk then it tells if it contains speech or not.
+        # If not then it puts +1 to the silence counter until it breaks from it's loop
+        # If it did detect speech then it resets the counter
         if vad.is_speech(vad_bytes, sample_rate=16000) is False:
             silence_counter += 1
         elif vad.is_speech(vad_bytes, sample_rate=16000) is True:
@@ -108,7 +114,7 @@ def webrtcvad_and_command_recording(stream, vad, mic_samplerate, silence_time):
     
     full_audio_chunks = np.concatenate(audio_chunks)
     full_audio_chunks = full_audio_chunks.tobytes()
-    print("📃 command has been recorded to going to the server")
+    print("📃 command has been recorded now going to the server")
     return full_audio_chunks
 
 def server_audio(server_IP, server_port, full_audio_chunks):
